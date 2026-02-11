@@ -1,0 +1,21 @@
+direction,rank,ip,bytes,human_readable,is_cgnat,flowiq_filter,copilot_url
+destination,1,23.185.0.3,26889267504,25.04 GB,False,23.185.0.3,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,2,47.91.64.21,15756893421,14.67 GB,False,47.91.64.21,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,3,23.39.42.173,12344761313,11.50 GB,False,23.39.42.173,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,4,23.39.40.90,5824117621,5.42 GB,False,23.39.40.90,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,5,216.150.1.1,5336693864,4.97 GB,False,216.150.1.1,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,6,3.33.186.135,5280571749,4.92 GB,False,3.33.186.135,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,7,15.197.167.90,5271027734,4.91 GB,False,15.197.167.90,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,8,54.230.114.5,4556677722,4.24 GB,False,54.230.114.5,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,9,54.230.114.67,4555510589,4.24 GB,False,54.230.114.67,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+destination,10,54.230.114.82,4533464586,4.22 GB,False,54.230.114.82,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,1,10.2.2.100,35032320124,32.63 GB,False,10.2.2.100,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,2,10.2.2.40,20144438134,18.76 GB,False,10.2.2.40,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,3,10.2.2.70,13512054273,12.58 GB,False,10.2.2.70,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,4,10.1.5.46,6468218334,6.02 GB,False,10.1.5.46,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,5,10.1.5.12,6466555885,6.02 GB,False,10.1.5.12,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,6,10.1.5.13,6462224436,6.02 GB,False,10.1.5.13,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,7,10.2.5.141,4941039399,4.60 GB,False,10.2.5.141,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,8,10.2.5.143,4936300998,4.60 GB,False,10.2.5.143,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,9,10.1.5.57,4236247825,3.95 GB,False,10.1.5.57,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
+source,10,10.1.5.59,4235390926,3.94 GB,False,10.1.5.59,https://cplt.demo.aviatrixtest.com/monitor/flow-iq/flowiq/overview
