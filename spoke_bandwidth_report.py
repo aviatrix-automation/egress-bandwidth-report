@@ -21,6 +21,7 @@ import os
 import sys
 import argparse
 from collections import OrderedDict
+import calendar
 from datetime import datetime, timedelta
 
 import requests
@@ -334,9 +335,18 @@ def main():
     parser.add_argument("--group-by", choices=list(GROUPBY_FIELDS.keys()), default=None,
                         dest="group_by",
                         help="Group results (text output): account, vpc, vpc_id, region, cloud, transit, group")
+    parser.add_argument("--month", type=int, choices=range(1, 13), metavar="1-12",
+                        help="Calendar month (requires --year, mutually exclusive with --days)")
+    parser.add_argument("--year", type=int,
+                        help="Calendar year (requires --month)")
     parser.add_argument("--env", type=str, default=".env.avx.local",
                         help="Path to .env file (default: .env.avx.local)")
     args = parser.parse_args()
+
+    if args.month and not args.year:
+        parser.error("--month requires --year")
+    if args.year and not args.month:
+        parser.error("--year requires --month")
 
     env = load_env(args.env)
     copilot, user, pwd = resolve_creds(env)
@@ -345,8 +355,15 @@ def main():
               "in env file or environment.", file=sys.stderr)
         sys.exit(1)
 
-    end_time = datetime.utcnow()
-    start_time = end_time - timedelta(days=args.days)
+    if args.month:
+        start_time = datetime(args.year, args.month, 1)
+        last_day = calendar.monthrange(args.year, args.month)[1]
+        end_time = datetime(args.year, args.month, last_day, 23, 59, 59)
+        days = last_day
+    else:
+        end_time = datetime.utcnow()
+        start_time = end_time - timedelta(days=args.days)
+        days = args.days
     start_iso = start_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
     end_iso = end_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
@@ -364,7 +381,7 @@ def main():
                   file=sys.stderr)
             sys.exit(1)
 
-    print(f"[INFO] {len(spokes)} spoke gateway(s), period={args.days}d", file=sys.stderr)
+    print(f"[INFO] {len(spokes)} spoke gateway(s), period={days}d", file=sys.stderr)
 
     results = []
     for gw in spokes:
@@ -393,11 +410,11 @@ def main():
 
     # Render output
     if args.output == "json":
-        print(render_json(results, start_time, end_time, args.days))
+        print(render_json(results, start_time, end_time, days))
     elif args.output == "csv":
         print(render_csv(results), end="")
     else:
-        print(render_text(results, start_time, end_time, args.days, group_by=args.group_by))
+        print(render_text(results, start_time, end_time, days, group_by=args.group_by))
 
 
 if __name__ == "__main__":

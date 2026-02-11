@@ -19,6 +19,7 @@ import os
 import sys
 import argparse
 from collections import OrderedDict
+import calendar
 from datetime import datetime, timedelta
 from urllib.parse import urlencode
 
@@ -493,9 +494,18 @@ def main():
     parser.add_argument("--group-by", choices=list(GROUPBY_FIELDS.keys()),
                         default=None, dest="group_by",
                         help="Group per-spoke results by attribute (requires --per-spoke)")
+    parser.add_argument("--month", type=int, choices=range(1, 13), metavar="1-12",
+                        help="Calendar month (requires --year, mutually exclusive with --days)")
+    parser.add_argument("--year", type=int,
+                        help="Calendar year (requires --month)")
     parser.add_argument("--env", type=str, default=".env.avx.local",
                         help="Path to .env file (default: .env.avx.local)")
     args = parser.parse_args()
+
+    if args.month and not args.year:
+        parser.error("--month requires --year")
+    if args.year and not args.month:
+        parser.error("--year requires --month")
 
     if args.group_by and not args.per_spoke:
         args.per_spoke = True
@@ -507,8 +517,15 @@ def main():
               "in env file or environment.", file=sys.stderr)
         sys.exit(1)
 
-    end_time = datetime.utcnow()
-    start_time = end_time - timedelta(days=args.days)
+    if args.month:
+        start_time = datetime(args.year, args.month, 1)
+        last_day = calendar.monthrange(args.year, args.month)[1]
+        end_time = datetime(args.year, args.month, last_day, 23, 59, 59)
+        days = last_day
+    else:
+        end_time = datetime.utcnow()
+        start_time = end_time - timedelta(days=args.days)
+        days = args.days
     start_iso = start_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
     end_iso = end_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
@@ -550,12 +567,12 @@ def main():
 
         if args.output == "json":
             print(render_json_per_spoke(spoke_results, start_time, end_time,
-                                        args.days, copilot_url))
+                                        days, copilot_url))
         elif args.output == "csv":
             print(render_csv_per_spoke(spoke_results, copilot_url), end="")
         else:
             print(render_text_per_spoke(spoke_results, start_time, end_time,
-                                        args.days, args.top, copilot_url,
+                                        days, args.top, copilot_url,
                                         group_by=args.group_by))
     else:
         # Global mode: single query across all spokes (or filtered gateway)
@@ -568,12 +585,12 @@ def main():
 
         if args.output == "json":
             print(render_json_global(destinations, sources, start_time,
-                                     end_time, args.days, copilot_url))
+                                     end_time, days, copilot_url))
         elif args.output == "csv":
             print(render_csv_global(destinations, sources, copilot_url), end="")
         else:
             print(render_text_global(destinations, sources, start_time,
-                                     end_time, args.days, args.top,
+                                     end_time, days, args.top,
                                      copilot_url))
 
 
