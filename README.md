@@ -81,6 +81,7 @@ A sample CSV is in [`sample reports/spoke_bandwidth_7d.csv`](sample%20reports/sp
 | Flag | What it does | Example |
 |------|-------------|---------|
 | `--days N` | Change the time period (default 30) | `--days 7` |
+| `--month M --year Y` | Report for a specific calendar month | `--month 1 --year 2025` |
 | `--gateway NAME` | Report on a single spoke | `--gateway my-spoke-gw` |
 | `--group-by ATTR` | Roll up by `account`, `region`, `cloud`, `transit`, `vpc`, or `group` | `--group-by account` |
 | `--output FORMAT` | `text` (default), `csv`, or `json` | `--output csv > report.csv` |
@@ -131,6 +132,7 @@ A sample CSV is in [`sample reports/top_talkers_7d.csv`](sample%20reports/top_ta
 | Flag | What it does | Example |
 |------|-------------|---------|
 | `--days N` | Change the time period (default 30) | `--days 7` |
+| `--month M --year Y` | Report for a specific calendar month | `--month 1 --year 2025` |
 | `--top N` | Number of results (default 10) | `--top 20` |
 | `--gateway NAME` | Report on a single spoke | `--gateway my-spoke-gw` |
 | `--per-spoke` | Show results per spoke instead of aggregate | `--per-spoke` |
