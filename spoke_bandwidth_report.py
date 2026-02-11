@@ -221,6 +221,14 @@ def _render_section(lines, label, data_dict):
     total = sum(data_dict.values())
     lines.append(f"  Total:     {fmt(total)}")
 
+def _extract_vpc_name(vpc_id):
+    """Extract the VPC name from the vpc_id field, which may be in the format 'id~~name'."""
+    try:
+        vpc_name = vpc_id.split("~~")[1]
+    except:
+        vpc_name = vpc_id
+    return vpc_name
+
 
 def render_text(results, period_start, period_end, days, group_by=None):
     """Render the customer-facing text report."""
@@ -262,6 +270,7 @@ def render_text(results, period_start, period_end, days, group_by=None):
     return "\n".join(lines)
 
 
+
 def render_json(results, period_start, period_end, days):
     """Render JSON output."""
     gateways = []
@@ -270,7 +279,7 @@ def render_json(results, period_start, period_end, days):
         gateways.append({
             "gateway": r["gateway"],
             "account_name": r["account_name"],
-            "vpc_name": r["vpc_name"],
+            "vpc_name": _extract_vpc_name(r["vpc_id"]),
             "vpc_id": r["vpc_id"],
             "vpc_region": r["vpc_region"],
             "vendor_name": r["vendor_name"],
@@ -308,7 +317,7 @@ def render_csv(results):
     for r in results:
         d = r["data"]
         w.writerow([
-            r["gateway"], r["account_name"], r["vpc_name"], r["vpc_id"],
+            r["gateway"], r["account_name"], _extract_vpc_name(r["vpc_id"]), r["vpc_id"],
             r["vpc_region"], r["vendor_name"], r["transit_gw_name"],
             r["group_name"],
             d["internal_rx"], d["internal_tx"],
